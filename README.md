@@ -1,4 +1,4 @@
-# Shoreline Change Analysis <p><img src="./data_ex/output_ex.png" alt="Output Example" width="150"></p>
+# Shoreline Change Analysis <p align="right"><img src="./data_ex/output_ex.png" alt="Output Example" width="130"></p>
 
 
 ## Description
