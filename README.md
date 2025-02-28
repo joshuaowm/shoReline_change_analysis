@@ -1,6 +1,8 @@
 # Shoreline Change Analysis
 
-![](./data_ex/output_ex.png)
+<p align="center">
+  <img src="./data_ex/output_ex.png" alt="Output Example" width="300">
+</p>
 
 ## Description
 This [**Quatro**](Shoreline_Change_Analysis.qmd) workflow performs shoreline change analysis using raster data for different years. The workflow involves loading raster data, calculating the Normalized Difference Water Index (NDWI), applying masking, converting the raster data into polygons, and visualizing the shoreline changes over time.
