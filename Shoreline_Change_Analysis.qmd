@@ -1,0 +1,208 @@
+---
+title: "Shoreline Change Analysis"
+author: "Joshua Mangotang"
+format: html
+editor: visual
+---
+
+## Shoreline Change Analysis Workflow
+
+Shorelines change shape and position over multiple spatial and temporal scales, where water level motions from waves and tides to relative sea-level change drive episodes of erosion and accretion. Capturing and understanding this behaviour are central to a range of science, engineering and management questions from establishing the role of a particular driver in coastal morphodynamics to setting boundaries in coastal management contexts. 
+
+This workflow creates a shoreline analysis from raster data and visualizes the differences between each temporal dataset. It uses libraries from `terra`, `sf`, and `tmap`, along with a local custom function (`SCA_functions.R`) to facilitate the workflow.
+
+### Load Library and Local Package
+
+```{r}
+library(terra)
+library(tmap)
+library(sf)
+
+source("SCA_functions.R")
+```
+
+### Load Raster Data
+
+The raster data example we used is from an area near Eretan Bay, West Java, Indonesia. This area has been previously researched ([link](https://rekayasainfrastruktur.unwir.ac.id/index.php/jri/article/view/184/172)) and is known for its coastal abrasion over the years due to various factors. The raster dataset contains four bands, including RGB and the NIR band, which are used for calculating NDWI.
+
+```{r}
+raster_1994 <- rast("./data_ex/1994.tif")
+raster_2004 <- rast("./data_ex/2004.tif")
+raster_2014 <- rast("./data_ex/2014.tif")
+raster_2024 <- rast("./data_ex/2024.tif")
+
+#Example Plotting
+plot(raster_1994)
+```
+
+### NDWI Calculation
+
+After loading the raster data, we need to calculate the Normalized Difference Water Index (NDWI), which helps differentiate water bodies from land. NDWI is computed to enhance the presence of surface water features while suppressing soil and vegetation components in the image.
+
+```{r}
+ndwi_1994 <- calculate_ndwi(raster_1994)
+ndwi_2004 <- calculate_ndwi(raster_2004)
+ndwi_2014 <- calculate_ndwi(raster_2014)
+ndwi_2024 <- calculate_ndwi(raster_2024)
+
+#Example Plotting
+plot(ndwi_1994)
+```
+
+### Raster Masking
+
+Raster masking is conducted to differentiate between land and water areas by applying threshold values (in this matter the threshold = 0) to the NDWI data. This step helps in isolating shoreline features, which are needed for analyzing coastal changes over time.
+
+```{r}
+masks_1994 <- create_masks(ndwi_1994)
+masks_2004 <- create_masks(ndwi_2004)
+masks_2014 <- create_masks(ndwi_2014)
+masks_2024 <- create_masks(ndwi_2024)
+```
+
+### Mask plotting
+
+The mask plotting step visualizes the masked raster data, highlighting land and water distribution. This visualization helps in assessing the accuracy of land-water classification and ensures that shoreline boundaries are well-defined before proceeding to the next method.
+
+```{r}
+tmap_mode("plot")
+
+map_1994 <- tm_shape(masks_1994$land) +
+  tm_raster(palette = c("skyblue", "darkgreen"), title = "Land Mask 1994",
+            labels = c("Water", "Land"))
+
+map_2004 <- tm_shape(masks_2004$land) +
+  tm_raster(palette = c("skyblue", "darkgreen"), title = "Land Mask 2004",
+            labels = c("Water", "Land"))
+
+map_2014 <- tm_shape(masks_2014$land) +
+  tm_raster(palette = c("skyblue", "darkgreen"), title = "Land Mask 2014",
+            labels = c("Water", "Land"))
+
+map_2024 <- tm_shape(masks_2024$land) +
+  tm_raster(palette = c("skyblue", "darkgreen"), title = "Land Mask 2024",
+            labels = c("Water", "Land"))
+
+# Combine all maps into one plot
+tmap_arrange(map_1994, map_2004, map_2014, map_2024, ncol = 2)
+```
+
+As shown on the map, the data is successfully masked and differentiates between water and land.
+
+### Polygons and SF Convert
+
+This process converts the raster-based shoreline masks into vector polygons, allowing for more precise spatial analysis. This method can be used for detecting shoreline length and assisting with visualization. The polygons are then transformed into Simple Features (SF) objects, ensuring they have a consistent coordinate reference system (CRS) for visualization.
+
+```{r}
+shoreline_1994_sf <- create_shoreline(masks_1994$land)
+shoreline_2004_sf <- create_shoreline(masks_2004$land)
+shoreline_2014_sf <- create_shoreline(masks_2014$land)
+shoreline_2024_sf <- create_shoreline(masks_2024$land)
+```
+
+### Visualization Result
+
+The visualization result overlays shoreline data from different years on a base raster image, allowing for a comparative visual analysis of shoreline movement over time. The colors indicate shoreline positions in different years.
+
+```{r}
+tm_shape(raster_1994[[1]]) +  
+  tm_raster(palette = "Greys", 
+            legend.show = FALSE,
+            legend.is.portrait = FALSE,
+            labels = NULL,
+            title = NULL) +
+  tm_shape(shoreline_1994_sf) +
+  tm_borders(col = "darkblue", lwd = 2) +
+  tm_shape(shoreline_2004_sf) +
+  tm_borders(col = "darkgreen", lwd = 2) +
+  tm_shape(shoreline_2014_sf) +
+  tm_borders(col = "purple", lwd = 2) +
+  tm_shape(shoreline_2024_sf) +
+  tm_borders(col = "red", lwd = 2) +
+  tm_layout(title = "Shoreline Change (1994-2024)",
+            legend.show = FALSE) +  # Completely hide all automatic legends
+  tm_compass(position = c("right", "top")) +
+  tm_scale_bar(position = c("right", "bottom")) +
+  tm_credits("Shoreline Year:", position = c("left", "bottom")) +
+  tm_credits("1994", col = "darkblue", position = c("left", "bottom"), size = 1) +
+  tm_credits("2004", col = "darkgreen", position = c("left", "bottom"), size = 1) +
+  tm_credits("2014", col = "purple", position = c("left", "bottom"), size = 1) +
+  tm_credits("2024", col = "red", position = c("left", "bottom"), size = 1)
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
