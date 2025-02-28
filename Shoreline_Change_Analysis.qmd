@@ -7,7 +7,7 @@ editor: visual
 
 ## Shoreline Change Analysis Workflow
 
-Shorelines change shape and position over multiple spatial and temporal scales, where water level motions from waves and tides to relative sea-level change drive episodes of erosion and accretion. Capturing and understanding this behaviour are central to a range of science, engineering and management questions from establishing the role of a particular driver in coastal morphodynamics to setting boundaries in coastal management contexts. 
+Shorelines change shape and position over multiple spatial and temporal scales, where water level motions from waves and tides to relative sea-level change drive episodes of erosion and accretion. Capturing and understanding this behaviour are central to a range of science, engineering and management questions from establishing the role of a particular driver in coastal morphodynamics to setting boundaries in coastal management contexts.
 
 This workflow creates a shoreline analysis from raster data and visualizes the differences between each temporal dataset. It uses libraries from `terra`, `sf`, and `tmap`, along with a local custom function (`SCA_functions.R`) to facilitate the workflow.
 
@@ -128,78 +128,6 @@ tm_shape(raster_1994[[1]]) +
   tm_credits("2004", col = "darkgreen", position = c("left", "bottom"), size = 1) +
   tm_credits("2014", col = "purple", position = c("left", "bottom"), size = 1) +
   tm_credits("2024", col = "red", position = c("left", "bottom"), size = 1)
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-
-
 ```
 
 ```{r}

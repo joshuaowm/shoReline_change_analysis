@@ -15,6 +15,6 @@ create_masks <- function(ndwi) {
 create_shoreline <- function(raster_mask) {
   shoreline <- as.polygons(raster_mask, dissolve = TRUE)
   shoreline <- st_as_sf(shoreline)
-  shoreline_sf <- st_transform(crs = 4326)
+  shoreline_sf <- st_transform(shoreline, crs = 4326)
   return(shoreline_sf)
 }
