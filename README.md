@@ -1,4 +1,4 @@
-# Shoreline Change Analysis
+# Shoreline Change Analysis <img src="./data_ex/output_ex.png" alt="Output Example" width="150" style="display: inline; vertical-align: middle;">
 
 <p style="position: absolute; top: 10px; right: 10px;">
   <img src="./data_ex/output_ex.png" alt="Output Example" width="150">
