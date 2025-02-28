@@ -1,7 +1,7 @@
 # Shoreline Change Analysis
 
-<p align="center">
-  <img src="./data_ex/output_ex.png" alt="Output Example" width="100">
+<p>
+  <img src="./data_ex/output_ex.png" alt="Output Example" width="150">
 </p>
 
 ## Description
